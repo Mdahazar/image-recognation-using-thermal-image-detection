@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thermal Analysis | ThermoScan Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="background-animation">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="logo">
+                <i class="fas fa-thermal"></i>
+                <span>ThermoScan<span class="logo-pro">Pro</span></span>
+            </div>
+            <nav class="main-nav">
+                <a href="{{ url_for('index') }}" class="nav-link">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Home
+                </a>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="analysis-container">
+            <div class="analysis-header">
+                <h1 class="page-title">Thermal Image Analysis</h1>
+                <p class="page-subtitle">Upload your image for advanced thermal processing and detection</p>
+            </div>
+
+            <!-- Upload Section -->
+<div class="upload-section">
+    <div class="upload-card">
+        <div class="upload-header">
+            <div class="upload-icon">
+                <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <h2>Upload Image</h2>
+            <p>Supported formats: PNG, JPG, JPEG, BMP, TIFF (Max 16MB)</p>
+        </div>
+
+        <form id="uploadForm" class="upload-form">
+            <!-- FIXED: Added id to upload-area-wrapper for better control -->
+            <div class="upload-area" id="uploadArea">
+                <i class="fas fa-images"></i>
+                <h3>Drop your image here or click to browse</h3>
+                <p>High-resolution images yield better analysis results</p>
+                <input type="file" id="fileInput" name="file" accept="image/*" hidden>
+                <!-- FIXED: Changed to button type="button" to prevent form submission -->
+                <button type="button" class="browse-button" id="browseButton">
+                    Browse Files
+                </button>
+            </div>
+            
+            <div class="file-preview" id="filePreview" style="display: none;">
+                <div class="preview-content">
+                    <img id="previewImage" src="" alt="Preview">
+                    <div class="preview-info">
+                        <h4 id="fileName"></h4>
+                        <span id="fileSize"></span>
+                        <button type="button" class="remove-file" onclick="removeFile()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="analyze-button" id="analyzeButton" disabled>
+                <i class="fas fa-search"></i>
+                Analyze Thermal Image
+                <div class="button-loading" id="buttonLoading" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+            </button>
+        </form>
+    </div>
+</div>
+            <!-- Results Section -->
+            <div class="results-section" id="resultsSection" style="display: none;">
+                <div class="results-header">
+                    <h2>Analysis Results</h2>
+                    <div class="analysis-meta">
+                        <span id="analysisTime"></span>
+                        <span class="analysis-id" id="analysisId"></span>
+                    </div>
+                </div>
+
+                <!-- Results Grid -->
+                <div class="results-grid">
+                    <div class="result-card temperature-card">
+                        <div class="card-header">
+                            <i class="fas fa-thermometer-full"></i>
+                            <h3>Temperature Analysis</h3>
+                        </div>
+                        <div class="temperature-grid">
+                            <div class="temp-item max-temp">
+                                <span class="temp-label">Maximum</span>
+                                <span class="temp-value" id="maxTemp">--</span>
+                                <span class="temp-unit">°C</span>
+                            </div>
+                            <div class="temp-item min-temp">
+                                <span class="temp-label">Minimum</span>
+                                <span class="temp-value" id="minTemp">--</span>
+                                <span class="temp-unit">°C</span>
+                            </div>
+                            <div class="temp-item avg-temp">
+                                <span class="temp-label">Average</span>
+                                <span class="temp-value" id="avgTemp">--</span>
+                                <span class="temp-unit">°C</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-card detection-card">
+                        <div class="card-header">
+                            <i class="fas fa-fire"></i>
+                            <h3>Thermal Detection</h3>
+                        </div>
+                        <div class="detection-stats">
+                            <div class="detection-item">
+                                <span class="detection-label">Hot Spots</span>
+                                <span class="detection-value" id="hotSpots">--</span>
+                            </div>
+                            <div class="detection-item">
+                                <span class="detection-label">Critical Zones</span>
+                                <span class="detection-value critical" id="criticalZones">--</span>
+                            </div>
+                            <div class="detection-item">
+                                <span class="detection-label">Confidence</span>
+                                <span class="detection-value confidence" id="confidenceLevel">--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NEW: Object Detection Card -->
+                    <div class="result-card object-card">
+                        <div class="card-header">
+                            <i class="fas fa-search"></i>
+                            <h3>Object Detection</h3>
+                        </div>
+                        <div class="detection-stats">
+                            <div class="detection-item">
+                                <span class="detection-label">Detected Object</span>
+                                <span class="detection-value confidence" id="detectedObject">--</span>
+                            </div>
+                            <div class="detection-item">
+                                <span class="detection-label">Detection Confidence</span>
+                                <span class="detection-value confidence" id="objectConfidence">--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-card image-info-card">
+                        <div class="card-header">
+                            <i class="fas fa-info-circle"></i>
+                            <h3>Image Information</h3>
+                        </div>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span>Dimensions</span>
+                                <span id="imageSize">--</span>
+                            </div>
+                            <div class="info-item">
+                                <span>Resolution</span>
+                                <span id="imageResolution">--</span>
+                            </div>
+                            <div class="info-item">
+                                <span>Thermal Variance</span>
+                                <span id="thermalVariance">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Comparison -->
+                <div class="image-comparison-section">
+                    <h3>Visual Analysis</h3>
+                    <div class="image-comparison">
+                        <div class="image-view">
+                            <h4>Original Image</h4>
+                            <div class="image-container">
+                                <img id="originalImage" src="" alt="Original">
+                            </div>
+                        </div>
+                        <div class="image-view">
+                            <h4>Thermal Mapping</h4>
+                            <div class="image-container">
+                                <img id="thermalImage" src="" alt="Thermal Analysis">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="results-actions">
+                    <button class="action-button primary">
+                        <i class="fas fa-download"></i>
+                        Download Report
+                    </button>
+                    <button class="action-button secondary" onclick="resetAnalysis()">
+                        <i class="fas fa-redo"></i>
+                        New Analysis
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

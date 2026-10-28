@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThermoScan Pro | Advanced Thermal Imaging</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-animation">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="logo">
+                <i class="fas fa-thermal"></i>
+                <span>ThermoScan<span class="logo-pro">Pro</span></span>
+            </div>
+            <nav class="main-nav">
+                <a href="#" class="nav-link active">Home</a>
+                <a href="#" class="nav-link">Features</a>
+                <a href="#" class="nav-link">About</a>
+                <a href="#" class="nav-link">Contact</a>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-bolt"></i>
+                    AI-Powered Thermal Analysis
+                </div>
+                <h1 class="hero-title">
+    <span class="title-line">Object <span class="gradient-text">recognition using</span> thermal images</span>
+</h1>
+                <p class="hero-description">
+                    Experience next-generation thermal analysis with our cutting-edge AI technology. 
+                    Detect temperature variations, identify hot spots, and generate comprehensive 
+                    thermal reports with unparalleled accuracy.
+                </p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalAnalyses">0</div>
+                        <div class="stat-label">Analyses Completed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="accuracyRate">0%</div>
+                        <div class="stat-label">Accuracy Rate</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="processingTime">0s</div>
+                        <div class="stat-label">Avg. Processing</div>
+                    </div>
+                </div>
+
+                <div class="hero-actions">
+                    <a href="{{ url_for('check_thermal') }}" class="cta-button primary">
+                        <i class="fas fa-camera"></i>
+                        Start Thermal Analysis
+                        <div class="button-shine"></div>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="floating-card card-1">
+                    <i class="fas fa-thermometer-full"></i>
+                    <h4>Temperature Mapping</h4>
+                </div>
+                <div class="floating-card card-2">
+                    <i class="fas fa-fire"></i>
+                    <h4>Hot Spot Detection</h4>
+                </div>
+                <div class="floating-card card-3">
+                    <i class="fas fa-chart-line"></i>
+                    <h4>Analytics</h4>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+<section class="features-section">
+    <h2 class="section-title">Why Choose ThermoScan Pro?</h2>
+    
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-brain"></i>
+            </div>
+            <h3>AI-Powered Analysis</h3>
+            <p>Advanced machine learning algorithms for precise thermal pattern recognition and anomaly detection.</p>
+            <div class="feature-glow"></div>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <h3>Real-time Processing</h3>
+            <p>Instant thermal analysis with results delivered in seconds, not minutes.</p>
+            <div class="feature-glow"></div>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-chart-bar"></i>
+            </div>
+            <h3>Detailed Analytics</h3>
+            <p>Comprehensive reports with temperature gradients, hot spots, and trend analysis.</p>
+            <div class="feature-glow"></div>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3>Enterprise Security</h3>
+            <p>Bank-level encryption and secure data handling for all your thermal analysis.</p>
+            <div class="feature-glow"></div>
+        </div>
+    </div>
+</section>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
